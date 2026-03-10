@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homenagem Especial - Dia da Mulher</title>
+    <style>
+        :root {
+            --roxo: #6a1b9a;
+            --roxo-claro: #9c4dcc;
+            --rosa: #ff80ab;
+            --dourado: #ffd700;
+            --branco: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fce4ec;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container que segura tudo */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        /* A "CAIXA" DO ENVELOPE - O segredo está aqui */
+        .envelope-corpo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--roxo);
+            border-radius: 0 0 10px 10px;
+            z-index: 3;
+            overflow: hidden; /* Isso impede que a carta apareça "vazando" */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* A CARTA - Começa escondida lá embaixo dentro do corpo */
+        .carta {
+            position: absolute;
+            bottom: -100%; /* Totalmente escondida para baixo */
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background-color: var(--branco);
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: bottom 0.6s ease-in-out;
+            z-index: 2;
+            border-top: 5px solid var(--rosa);
+        }
+
+        /* ABA SUPERIOR (O triângulo que fecha) */
+        .aba {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--roxo-claro);
+            transform-origin: top;
+            transition: transform 0.4s ease-in-out;
+            z-index: 5; /* Fica por cima de tudo quando fechado */
+        }
+
+        /* FRENTE DO ENVELOPE (O desenho em V que vemos na frente) */
+        .envelope-design-frente {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #8e24aa; /* Tom diferente para dar profundidade */
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        /* --- ANIMAÇÕES AO CLICAR --- */
+
+        /* 1. Abre a aba */
+        .aberto .aba {
+            transform: rotateX(180deg);
+            z-index: 1; /* Vai para trás ao abrir */
+        }
+
+        /* 2. Sobe a carta */
+        .aberto .carta {
+            bottom: 50px; /* Ela "pula" para fora do envelope */
+            z-index: 10; /* Fica na frente de tudo para leitura */
+        }
+
+        /* Conteúdo da Carta */
+        .carta h2 {
+            font-size: 1.2rem;
+            color: var(--roxo);
+            margin-bottom: 10px;
+        }
+
+        .carta p {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .selo {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 6;
+            font-size: 2.5rem;
+            transition: opacity 0.3s;
+        }
+
+        .aberto .selo { opacity: 0; }
+
+        .hint {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: var(--roxo);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Pétalas de fundo */
+        .petala {
+            position: absolute;
+            color: var(--rosa);
+            animation: queda linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes queda {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="this.classList.toggle('aberto')">
+        <div class="selo">🌸</div>
+        <div class="aba"></div>
+        
+        <div class="envelope-corpo">
+            <div class="envelope-design-frente"></div>
+            <div class="carta">
+                <h2>Feliz Dia da Mulher! ✨</h2>
+                <p>Para você que é a mistura perfeita de força, inteligência e amor.</p>
+                <p><strong>O mundo é melhor com você!</strong></p>
+                <p style="color: var(--rosa); font-size: 1.5rem;">❤️</p>
+            </div>
+        </div>
+
+        <div class="hint">CLIQUE PARA ABRIR 🌹</div>
+    </div>
+
+    <script>
+        // Sistema de pétalas caindo
+        function criarPetalas() {
+            const petala = document.createElement('div');
+            petala.className = 'petala';
+            petala.innerHTML = '🌸';
+            petala.style.left = Math.random() * 100 + 'vw';
+            petala.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            petala.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.body.appendChild(petala);
+            setTimeout(() => petala.remove(), 6000);
+        }
+        setInterval(criarPetalas, 400);
+    </script>
+</body>
+</html>
